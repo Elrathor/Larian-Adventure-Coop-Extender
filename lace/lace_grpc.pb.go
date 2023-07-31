@@ -2,9 +2,9 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             v4.24.0--rc2
-// source: lace.proto
+// source: lace/lace.proto
 
-package helloworld
+package lace
 
 import (
 	context "context"
@@ -139,5 +139,5 @@ var Exchange_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "lace.proto",
+	Metadata: "lace/lace.proto",
 }
