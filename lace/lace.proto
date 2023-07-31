@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+option go_package = "google.golang.org/grpc/examples/helloworld/helloworld";
+
+package lace;
+
+// The Exchange service definition.
+service Exchange {
+  // Sends a command
+  rpc SendCommand (SendCommandRequest) returns (SendCommandReply) {}
+  rpc GetCommand (GetCommandRequest) returns (GetCommandReply) {}
+}
+
+// The command string containing a command.
+message SendCommandRequest {
+  string command = 1;
+}
+
+// The response message containing the success status
+message SendCommandReply {
+  bool success = 1;
+}
+
+// The empty command request
+message GetCommandRequest {}
+
+// The response message containing a command
+message GetCommandReply {
+  string command = 1;
+}
