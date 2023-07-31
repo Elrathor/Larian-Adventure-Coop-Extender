@@ -1,8 +1,9 @@
-module lace
+module github.com/Elrathor/Larian-Adventure-Coop-Extender
 
 go 1.20
 
 require (
+	github.com/micmonay/keybd_event v1.1.1
 	golang.design/x/hotkey v0.4.1
 	google.golang.org/grpc v1.57.0
 	google.golang.org/protobuf v1.31.0
