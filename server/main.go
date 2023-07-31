@@ -1,6 +1,7 @@
 package main
 
 import (
+	"container/list"
 	"context"
 	"flag"
 	"fmt"
@@ -12,7 +13,8 @@ import (
 )
 
 var (
-	port = flag.Int("port", 50051, "The server port")
+	port         = flag.Int("port", 50051, "The server port")
+	commandQueue = list.New()
 )
 
 // server is used to implement lace.ExchangeServer.
@@ -21,11 +23,23 @@ type server struct {
 }
 
 func (s *server) SendCommand(ctx context.Context, in *pb.SendCommandRequest) (*pb.SendCommandReply, error) {
-	return &pb.SendCommandReply{Success: true}, nil
+	if in.GetCommand() == "SAVE" {
+		commandQueue.PushBack(in.GetCommand())
+		return &pb.SendCommandReply{Success: true}, nil
+	} else {
+		return &pb.SendCommandReply{Success: false}, nil
+	}
 }
 
 func (s *server) GetCommand(ctx context.Context, in *pb.GetCommandRequest) (*pb.GetCommandReply, error) {
-	return &pb.GetCommandReply{Command: "SAVE"}, nil
+	if commandQueue.Len() > 0 {
+		cmd := commandQueue.Front()
+		commandQueue.Remove(cmd)
+		return &pb.GetCommandReply{Command: cmd.Value.(string)}, nil
+	} else {
+		return &pb.GetCommandReply{Command: "NOOP"}, nil
+	}
+
 }
 
 func main() {
